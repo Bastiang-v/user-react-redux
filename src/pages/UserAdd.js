@@ -12,6 +12,7 @@ const validate = values => {
     return errors
 }
 const UserAdd = (props) => {
+    const {onSubmit} = props;
     const toggle = () => setModal(!modal);
     const [modal, setModal] = useState(false);
     const [formUser, setFormUser] = useState({
@@ -35,6 +36,7 @@ const UserAdd = (props) => {
             //     this.handleChangeRoute('Lista')
             // })
             console.log(sinErrors)
+            onSubmit(sinErrors)
             e.target.reset();
             toggle();
         }

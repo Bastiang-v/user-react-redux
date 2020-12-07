@@ -1,18 +1,20 @@
-import React, {useState} from 'react';
+import React  from 'react';
 import {
     Card, CardBody,
     Row, Col, CardHeader, CardText
 } from 'reactstrap';
 
 const UserList = (props) => {
-    const {users} = props
-    const [userSelected, setUserSelected] = useState(null);
+    const {users,selectUser, selectedUser} = props
+    const handleClick = id => {
+        selectUser(id)
+    }
     return (<Row>
         <Col>
             <Card>
                 <CardHeader className="text-left text-muted">User names</CardHeader>
-                {users.map((user, index) => (
-                    <CardText onClick={() => setUserSelected(index)}
+                {users.map((user,index) => (
+                    <CardText onClick={() => handleClick(index)}
                               key={user.id}>{user.name + ' ' + user.lastname}</CardText>))}
                 <CardBody>
                 </CardBody>
@@ -21,14 +23,14 @@ const UserList = (props) => {
         <Col>
             <Card>
                 <CardHeader className="text-left text-muted">Users info</CardHeader>
-                {userSelected != null && <CardText
-                    key={users[userSelected].id}> Email : {users[userSelected].email}
+                {selectedUser != null && <CardText
+                    key={users[selectedUser].id}> Email : {users[selectedUser].email}
                     <br/>
-                    LastName : {users[userSelected].lastname}
+                    LastName : {users[selectedUser].lastname}
                     <br/>
-                    Name : {users[userSelected].name}
+                    Name : {users[selectedUser].name}
                     <br/>
-                    Id : {users[userSelected].id}
+                    Id : {users[selectedUser].id}
                 </CardText>}
                 <CardBody>
                 </CardBody>

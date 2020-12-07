@@ -9,7 +9,7 @@ import UserAdd from "./UserAdd";
 
 export default class Main extends Component {
     render() {
-        const {users} = this.props
+        const {users,addUser,selectUser,selectedUser} = this.props
         return (
             <Container fluid>
                 <Card className="border-0" style={{backgroundColor: '#f5f5f5'}}>
@@ -38,12 +38,12 @@ export default class Main extends Component {
                                     <Button color="primary">Search</Button>
                                 </div>
                                 <div className="col-6 text-right">
-                                    <UserAdd/>
+                                    <UserAdd onSubmit={addUser}/>
                                 </div>
                             </Form>
                         </CardSubtitle>
                         <br/>
-                        <UserList users={users}/>
+                        <UserList users={users} selectUser={selectUser} selectedUser={selectedUser}/>
                     </CardBody>
                 </Card>
             </Container>)
