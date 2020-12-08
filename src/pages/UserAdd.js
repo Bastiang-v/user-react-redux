@@ -13,12 +13,12 @@ const validate = values => {
 }
 const UserAdd = (props) => {
     const {onSubmit} = props;
-    const toggle = () => setModal(!modal);
     const [modal, setModal] = useState(false);
+    const toggle = () => setModal(!modal);
     const [formUser, setFormUser] = useState({
         errors: {},
         name: null,
-        lastName: null,
+        lastname: null,
         email: null,
     });
     const handleChange = ({target}) => {
@@ -26,22 +26,16 @@ const UserAdd = (props) => {
     }
     const handleSubmit = e => {
         e.preventDefault();
-        const {errors, ...sinErrors} = formUser;
-        const result = validate(sinErrors);
+        const {errors, ...formValues} = formUser;
+        const result = validate(formValues);
         setFormUser({errors: result})
         if (!Object.keys(result).length) {
-            //envio del formulario no hay errores
-            // axios.post('http://localhost:8080/entity', sinErrors).then((item) => {
-            //     alert(sinErrors.id ? 'Item ' + sinErrors.id + 'Editado con exito' : 'Item Agregado con exito')
-            //     this.handleChangeRoute('Lista')
-            // })
-            console.log(sinErrors)
-            onSubmit(sinErrors)
+            onSubmit(formValues)
             e.target.reset();
             toggle();
         }
     }
-    const {errors, name, lastName, email} = formUser;
+    const {errors, name, lastname, email} = formUser;
     return (<div>
             <Button onClick={toggle} color="primary" className="text-right">
                 <svg width="1em" height="1em" viewBox="0 0 16 16"
@@ -64,7 +58,7 @@ const UserAdd = (props) => {
                         </FormGroup>
                         <FormGroup>
                             <Label for="lastName">Last name</Label>
-                            <Input type="text" defaultValue={lastName} name="lastName"
+                            <Input type="text" defaultValue={lastname} name="lastname"
                                    onChange={handleChange} id="lastName" placeholder="Last name"/>
                         </FormGroup>
                         <FormGroup>

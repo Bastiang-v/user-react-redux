@@ -1,29 +1,31 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import {connect} from 'react-redux'
 import Main from './pages/Main';
-import {addUser,selectUser} from "./reducers";
-
-function App(props) {
-    const {users,addUser,selectUser,selected} = props
+import { selectUser, searchUser, fetchGetUsers, fetchAddUser} from "./reducers";
+class App extends Component {
+    componentDidMount(){this.props.fetchGetUsers();}
+    render() {
+    const {fetchAddUser,selectUser,searchUser} = this.props
     return (
         <div className="App">
             <Main
-                users={users}
-                addUser={addUser}
+                addUser={fetchAddUser}
                 selectUser={selectUser}
-                selectedUser={selected}
+                searchUser={searchUser}
             />
         </div>
     );
 }
-
+}
 const mapStateToProps = state => {
-    const {data:users,selected} = state;
-    return {users,selected}
+    const {fetchGetUsers} = state;
+    return {fetchGetUsers}
 }
 const mapDispatchToProps = dispatch => ({
-    addUser:payload => dispatch(addUser(payload)),
-    selectUser: payload => dispatch(selectUser(payload))
+    selectUser: payload => dispatch(selectUser(payload)),
+    searchUser : payload => dispatch(searchUser(payload)),
+    fetchGetUsers: payload => dispatch(fetchGetUsers(payload)),
+    fetchAddUser: payload => dispatch(fetchAddUser(payload))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

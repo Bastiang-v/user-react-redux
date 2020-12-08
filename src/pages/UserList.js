@@ -1,11 +1,10 @@
-import React  from 'react';
-import {
-    Card, CardBody,
-    Row, Col, CardHeader, CardText
-} from 'reactstrap';
-
+import React from 'react';
+import {Card, CardBody, CardHeader, CardText, Col, Row} from 'reactstrap';
+import { useSelector } from 'react-redux'
 const UserList = (props) => {
-    const {users,selectUser, selectedUser} = props
+    const {selectUser} = props
+    const users = useSelector(state => state.search?state.data.filter(user=> user.name?.toLocaleUpperCase().match(state.search.toLocaleUpperCase())):state.data)
+   const userSelected = useSelector(state => state.selected?state.data.find(user=> user.id===state.selected):null)
     const handleClick = id => {
         selectUser(id)
     }
@@ -13,9 +12,7 @@ const UserList = (props) => {
         <Col>
             <Card>
                 <CardHeader className="text-left text-muted">User names</CardHeader>
-                {users.map((user,index) => (
-                    <CardText onClick={() => handleClick(index)}
-                              key={user.id}>{user.name + ' ' + user.lastname}</CardText>))}
+                {users.map((user,index) => ( user.name && <CardText onClick={() => handleClick(user.id)} key={index}>{user.name} {user.lastname && user.lastname}</CardText>))}
                 <CardBody>
                 </CardBody>
             </Card>
@@ -23,14 +20,14 @@ const UserList = (props) => {
         <Col>
             <Card>
                 <CardHeader className="text-left text-muted">Users info</CardHeader>
-                {selectedUser != null && <CardText
-                    key={users[selectedUser].id}> Email : {users[selectedUser].email}
+                {userSelected != null && <CardText
+                    key={userSelected.id}> Email : {userSelected.email}
                     <br/>
-                    LastName : {users[selectedUser].lastname}
+                    LastName : {userSelected.lastname}
                     <br/>
-                    Name : {users[selectedUser].name}
+                    Name : {userSelected.name}
                     <br/>
-                    Id : {users[selectedUser].id}
+                    Id : {userSelected.id}
                 </CardText>}
                 <CardBody>
                 </CardBody>

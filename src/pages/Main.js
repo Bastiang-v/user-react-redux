@@ -7,16 +7,35 @@ import {
 import UserList from './UserList';
 import UserAdd from "./UserAdd";
 
-export default class Main extends Component {
+class Main extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchInput:''
+        }
+        this.updateInput = this.updateInput.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+    }
+    updateInput = evt => {
+        this.setState({
+            searchInput: evt.target.value
+        });
+    }
+    onSearch =(e) => {
+        e.preventDefault()
+        const {searchUser,selectUser} = this.props
+        selectUser(null)
+        searchUser(this.state.searchInput)
+    }
     render() {
         const {users,addUser,selectUser,selectedUser} = this.props
         return (
             <Container fluid>
-                <Card className="border-0" style={{backgroundColor: '#f5f5f5'}}>
+                <Card className="border-0 card-background">
                     <CardBody>
                         <CardTitle className="row col card-title h3">Clever Test</CardTitle>
                         <CardSubtitle className="card-title">
-                            <Form className="form-row">
+                            <Form className="form-row" onSubmit={this.onSearch}>
                                 <div className="col-4">
                                     <InputGroup>
                                         <InputGroupAddon addonType="prepend">
@@ -31,11 +50,11 @@ export default class Main extends Component {
                                                 </svg>
                                             </InputGroupText>
                                         </InputGroupAddon>
-                                        <Input placeholder="Search user"/>
+                                        <Input onChange={this.updateInput} placeholder="Search user"/>
                                     </InputGroup>
                                 </div>
                                 <div className="col-2">
-                                    <Button color="primary">Search</Button>
+                                    <Button onClick={this.onSearch} color="primary">Search</Button>
                                 </div>
                                 <div className="col-6 text-right">
                                     <UserAdd onSubmit={addUser}/>
@@ -43,9 +62,10 @@ export default class Main extends Component {
                             </Form>
                         </CardSubtitle>
                         <br/>
-                        <UserList users={users} selectUser={selectUser} selectedUser={selectedUser}/>
+                        <UserList users={users} selectUser={selectUser} selectedUser={selectedUser} />
                     </CardBody>
                 </Card>
             </Container>)
     }
 }
+export default Main
